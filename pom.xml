@@ -16,22 +16,23 @@
 
     <dependencies>
 
-
+        <!-- Source: https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.34.0</version>
+            <version>4.41.0</version>
+            <scope>test</scope>
         </dependency>
 
-        <!-- Source: https://mvnrepository.com/artifact/org.testng/testng -->
+<!--        &lt;!&ndash; Source: https://mvnrepository.com/artifact/org.testng/testng &ndash;&gt;-->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
             <version>7.11.0</version>
             <scope>test</scope>
         </dependency>
+
+
     </dependencies>
-
-
 
 </project>

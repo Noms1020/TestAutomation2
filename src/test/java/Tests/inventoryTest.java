@@ -5,6 +5,8 @@ import Base.baseTest;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 
+import java.security.PublicKey;
+
 public class inventoryTest extends baseTest {
 
     @Test(priority = 1)
@@ -29,8 +31,22 @@ public class inventoryTest extends baseTest {
 
     }
 
+    @Test(dependsOnMethods ="accessLearningMaterials" )
+    public void VerifyIventryFormIsDisplayed(){
+        Assert.assertTrue(
+                inventorypage.IventryFormIsDisplayed(),"Inventory form is not displayed"
+        );
+        System.out.println("User is directed to Inventory form after clicking the AdvanceLearning button");
+
+    }
+
     @Test(priority = 2, dependsOnMethods = "accessLearningMaterials")
     public void SelectPhoneAndVerifyPreview() {
+
+        Assert.assertTrue(
+                inventorypage.IsPhonebrandDisabled(),"Brand dropdown should be DISABLED before selecting a device type"
+        );
+        System.out.println("Brand dropdown is disabled before device type is selected");
         inventorypage.selectDeviceType();
 
         Assert.assertTrue(
@@ -39,6 +55,11 @@ public class inventoryTest extends baseTest {
         );
 
         System.out.println(" Phone selected and preview is displayed");
+
+        Assert.assertTrue(
+                inventorypage.IsPhonebrandEnabled(),"Brand dropdown should be enabled after selecting the devive"
+        );
+        System.out.println("Brand dropdown is enabled after selecting device");
     }
 
     @Test(priority = 3, dependsOnMethods = "SelectPhoneAndVerifyPreview")
@@ -83,7 +104,21 @@ public class inventoryTest extends baseTest {
 
 
         inventorypage.enterQuantityAndAddress("2", "123 Koedoe Street");
+    }
+@Test(priority = 7)
+    public void verifyUnitPriceAndSubtotal(){
+       inventorypage.AssertUnitpriceAndSubtotalVelues();
+        System.out.println("Unit price R480.00 and subtotal R960.00");
 
+    }
+    @Test(priority = 8)
+    public void  NextbuttonTakesUserToPriceBreakdown()
+    {
+        inventorypage.NavigateToPriceBreakdown();
+        Assert.assertTrue(
+                inventorypage.IsPriceBreakdownDispalyed(),"Price breakdown is not displayed"
+        );
+        System.out.println("Price breakdown is displayed");
     }
 
 

@@ -9,6 +9,7 @@ import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 
 import java.time.Duration;
 
@@ -29,8 +30,11 @@ public class inventoryPage {
     WebElement LearnButton;
     @FindBy(xpath = "//*[@id=\"app-root\"]/nav/div[1]/div[2]/div[1]/div/button[2]/span[2]")
     WebElement LearnMaterialButton;
-    @FindBy(xpath = "//*[@id=\"tab-btn-web\"]/span[2]")
+    @FindBy(id = "tab-btn-web")
     WebElement AdvanceAutomationButton;
+    @FindBy(xpath = "//*[@id=\"inventory-title\"]")
+    WebElement InventoryFormLabel;
+
     @FindBy(xpath = "//*[@id=\"deviceType\"]")
     WebElement dropDown;
     @FindBy(xpath = "//*[@id='device-preview']//*[name()='svg']//*[name()='rect'][2]")
@@ -51,6 +55,15 @@ public class inventoryPage {
     WebElement DeviceQuantity;
     @FindBy(id="address")
     WebElement DeliveryAddress;
+    @FindBy(id = "unit-price-value")
+    WebElement UnitPrice;
+    @FindBy(id="subtotal-value")
+    WebElement Subtotal;
+    @FindBy(id="inventory-next-btn")
+    WebElement Nexbutton;
+    @FindBy(id="pricing-breakdown-title")
+    WebElement breakdownLabel;
+
 
 
     public void clickLearnButton() {
@@ -63,6 +76,20 @@ public class inventoryPage {
     }
     public void clickAdvanceAutomationButton() {
         wait.until(ExpectedConditions.elementToBeClickable(AdvanceAutomationButton)).click();
+    }
+    public boolean IventryFormIsDisplayed(){
+        wait.until(ExpectedConditions.visibilityOf(InventoryFormLabel));
+        return InventoryFormLabel.isDisplayed();
+    }
+
+    public boolean IsPhonebrandDisabled(){
+        wait.until(ExpectedConditions.visibilityOf(phoneBrand));
+        return !phoneBrand.isEnabled();
+    }
+    public boolean IsPhonebrandEnabled()
+    {
+        wait.until(ExpectedConditions.visibilityOf(phoneBrand));
+        return phoneBrand.isEnabled();
     }
     public void selectDeviceType() {
         wait.until(ExpectedConditions.elementToBeClickable(dropDown));
@@ -120,7 +147,30 @@ public class inventoryPage {
         DeliveryAddress.sendKeys(address);
     }
 
+    public void AssertUnitpriceAndSubtotalVelues(){
+        wait.until((ExpectedConditions.visibilityOf(UnitPrice)));
+        String ActualUnitPrice= UnitPrice.getText().trim();
 
+        wait.until(ExpectedConditions.visibilityOf(Subtotal));
+        String ActualSubtotal= Subtotal.getText().trim();
+
+        Assert.assertTrue(ActualUnitPrice.contains("R480.00"),"Unit price is wrong, you expected R480.00 but you got"+ActualUnitPrice
+        );
+        Assert.assertTrue(ActualSubtotal.contains("R960.00"),"Subtotal is wrong, you expected R960.00 but you got"+ActualSubtotal
+        );
+
+    }
+    public void NavigateToPriceBreakdown()
+    {
+        wait.until(ExpectedConditions.visibilityOf(Nexbutton));
+        wait.until(ExpectedConditions.elementToBeClickable(Nexbutton));
+        Nexbutton.click();
+    }
+
+    public boolean IsPriceBreakdownDispalyed(){
+        wait.until(ExpectedConditions.visibilityOf(breakdownLabel));
+        return Boolean.parseBoolean(breakdownLabel.getText());
+    }
 
 
 

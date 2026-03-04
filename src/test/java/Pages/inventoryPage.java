@@ -22,7 +22,7 @@ public class inventoryPage {
     //Constructor
     public inventoryPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(50));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
         PageFactory.initElements(driver, this);
     }
 
@@ -30,7 +30,7 @@ public class inventoryPage {
     WebElement LearnButton;
     @FindBy(xpath = "//*[@id=\"app-root\"]/nav/div[1]/div[2]/div[1]/div/button[2]/span[2]")
     WebElement LearnMaterialButton;
-    @FindBy(id = "tab-btn-web")
+    @FindBy(xpath = "//*[@id=\"tab-btn-web\"]")
     WebElement AdvanceAutomationButton;
     @FindBy(xpath = "//*[@id=\"inventory-title\"]")
     WebElement InventoryFormLabel;
@@ -63,6 +63,26 @@ public class inventoryPage {
     WebElement Nexbutton;
     @FindBy(id="pricing-breakdown-title")
     WebElement breakdownLabel;
+    @FindBy(id="shipping-express")
+    WebElement shippingType;
+    @FindBy(id="breakdown-shipping-value")
+    WebElement shippingAssetion;
+    @FindBy(id = "warranty-1yr")
+    WebElement warranty;
+    @FindBy(id="breakdown-warranty-value")
+    WebElement warrantyPreview;
+    @FindBy(id = "discount-code")
+    WebElement DiscountCodeTextbox;
+    @FindBy(id="apply-discount-btn")
+    WebElement applyDiscountBtn;
+    @FindBy(id="discount-feedback")
+    WebElement discountFeedbackLabel;
+    @FindBy(id = "breakdown-total-value")
+    WebElement AppliedDiscountTotalprice;
+    @FindBy(id="purchase-device-btn")
+    WebElement purchaseButton;
+    @FindBy(id="purchase-success-toast")
+    WebElement successModal;
 
 
 
@@ -75,6 +95,7 @@ public class inventoryPage {
         wait.until(ExpectedConditions.elementToBeClickable(LearnMaterialButton)).click();
     }
     public void clickAdvanceAutomationButton() {
+        wait.until(ExpectedConditions.visibilityOf(AdvanceAutomationButton));
         wait.until(ExpectedConditions.elementToBeClickable(AdvanceAutomationButton)).click();
     }
     public boolean IventryFormIsDisplayed(){
@@ -169,8 +190,54 @@ public class inventoryPage {
 
     public boolean IsPriceBreakdownDispalyed(){
         wait.until(ExpectedConditions.visibilityOf(breakdownLabel));
-        return Boolean.parseBoolean(breakdownLabel.getText());
+        return breakdownLabel.isDisplayed();
     }
+
+    public void SelectShipping(){
+        wait.until(ExpectedConditions.visibilityOf(shippingType));
+        shippingType.click();
+    }
+    public boolean ExpressAssertion(){
+        wait.until(ExpectedConditions.visibilityOf(shippingAssetion));
+        return shippingAssetion.isDisplayed();
+    }
+    public void SelectWarranty(){
+        wait.until(ExpectedConditions.elementToBeClickable(warranty));
+        warranty.click();
+    }
+    public boolean WarrantyAssertion(){
+        wait.until(ExpectedConditions.visibilityOf(warrantyPreview));
+        return warrantyPreview.isDisplayed();
+    }
+    public void EnterDiscount(String disc){
+        wait.until(ExpectedConditions.visibilityOf(DiscountCodeTextbox));
+        DiscountCodeTextbox.sendKeys(disc);
+    }
+    public void ApplyDiscount(){
+        wait.until(ExpectedConditions.elementToBeClickable(applyDiscountBtn)).click();
+    }
+    public boolean IsDiscountApplied() {
+        wait.until(ExpectedConditions.visibilityOf(discountFeedbackLabel));
+        return discountFeedbackLabel.isDisplayed();
+    }
+
+
+    public boolean IsDiscountedTotalPriceDisplayed(String expectedTotal) {
+        wait.until(ExpectedConditions.visibilityOf(AppliedDiscountTotalprice));
+        String actualTotal = AppliedDiscountTotalprice.getText().trim();
+        return actualTotal.contains(expectedTotal);
+    }
+
+    public void clickPurchaseBtn(){
+        wait.until(ExpectedConditions.elementToBeClickable(purchaseButton)).click();
+    }
+    public boolean IsSuccessMessageDisplayed(){
+        wait.until(ExpectedConditions.visibilityOf(successModal));
+        return successModal.isDisplayed();
+    }
+
+
+
 
 
 

@@ -1,0 +1,13 @@
+<suite name="Inventory Tests">
+    <Listeners>
+        <Listener class-name = "ExtentsReports.Listener"/>
+
+    </Listeners>
+    <test name ="Login to Ndosi Website">
+        <classes>
+            <class name ="Tests.loginTest"/>
+            <class name = "Tests.inventoryTest"/>
+        </classes>
+    </test>
+
+</suite>
